@@ -16,14 +16,16 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               name:
- *                 type: string
- *               surname:
+ *               username:
  *                 type: string
  *               email:
  *                 type: string
  *               password:
  *                 type: string
+ *             required:
+ *               - username
+ *               - email
+ *               - password
  *     responses:
  *       201:
  *         description: User registered successfully
@@ -38,9 +40,9 @@ const router = express.Router();
  *                 user:
  *                   type: object
  *                   properties:
- *                     name:
- *                       type: string
- *                     surname:
+ *                     id:
+ *                       type: integer
+ *                     username:
  *                       type: string
  *                     email:
  *                       type: string
@@ -50,9 +52,9 @@ const router = express.Router();
  *         description: Internal server error
  */
 router.post('/register', async (req, res) => {
-    const { name, surname, email, password } = req.body;
+    const { username, email, password } = req.body;
     try {
-        const newUser = await registerUser(name, surname, email, password);
+        const newUser = await registerUser(username, email, password);
         res.status(201).json({ message: 'User registered', user: newUser });
     } catch (err) {
         res.status(500).json({ error: 'Error registering user' });
